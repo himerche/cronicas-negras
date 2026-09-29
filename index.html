@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crónicas Negras</title>
+<meta name="theme-color" content="#151314">
+<meta name="description" content="Enigmas de sí o no · Yes-or-no mysteries">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Crónicas Negras">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icono-192.png">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="carta.css">
+<style>
+  :root {
+    color-scheme: dark;
+    --page: #151314;
+    --bone: #ebe7dc;
+    --bone-dim: #8d8980;
+    --blood: #c1121f;
+    --line: #3a3637;
+    --display: "Special Elite", "Courier New", Courier, monospace;
+    --body: "Karla", "Segoe UI", system-ui, sans-serif;
+  }
+  body {
+    background: var(--page); color: var(--bone);
+    font-family: var(--body); font-size: 15px; line-height: 1.55;
+    padding-inline: 16px; padding-block: 36px 64px;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 30px; }
+  header { display: grid; gap: 14px; }
+  .eyebrow { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--blood); font-weight: 700; }
+  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 7vw, 72px); line-height: 1; margin: 0; }
+  h1 span { color: var(--blood); }
+  .howto { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 4px 28px; max-width: 920px; color: var(--bone-dim); }
+  .howto p { margin: 0 0 6px; }
+  .howto b { color: var(--bone); }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+    background: color-mix(in srgb, var(--page) 92%, transparent); backdrop-filter: blur(6px); padding-block: 12px; border-bottom: 1px solid var(--line); }
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font: 600 13px/1 var(--body); letter-spacing: .04em; color: var(--bone-dim);
+    background: transparent; border: 1px solid var(--line); padding: 9px 13px; border-radius: 999px; cursor: pointer;
+  }
+  .chip[aria-pressed="true"] { color: var(--page); background: var(--bone); border-color: var(--bone); }
+  .chip .n { opacity: .6; font-variant-numeric: tabular-nums; margin-left: 4px; }
+  .btn {
+    font: 700 13px/1 var(--body); letter-spacing: .08em; text-transform: uppercase;
+    color: var(--bone); background: transparent; border: 1px solid var(--line); padding: 11px 15px; border-radius: 2px; cursor: pointer;
+  }
+  .btn.primary { background: var(--blood); border-color: var(--blood); color: #fff; }
+  .btn:hover { border-color: var(--bone-dim); }
+  .chip:focus-visible, .btn:focus-visible, .flip:focus-visible { outline: 2px solid var(--blood); outline-offset: 3px; }
+  .spacer { flex: 1; }
+
+  .deck { display: grid; gap: 26px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+  .flip { perspective: 1400px; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; display: block; width: 100%; text-align: left; color: inherit; }
+  .flip .inner { height: 100%; display: grid; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3,.1,.2,1); }
+  .flip .inner > .face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: 0 18px 40px -18px rgba(0,0,0,.85); }
+  .flip .inner > .back { transform: rotateY(180deg); }
+  .flip.flipped .inner { transform: rotateY(180deg); }
+  .empty { color: var(--bone-dim); }
+
+  /* Modo partida */
+  .game { position: fixed; inset: 0; z-index: 20; background: rgba(8,7,8,.94); display: grid; place-items: center; padding: 20px 16px; }
+  .game .stage { display: grid; gap: 16px; justify-items: center; width: 100%; }
+  .game .slot { width: min(100%, 440px, calc((100vh - 150px) * 63 / 88)); }
+  .game .row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .game .hint { color: var(--bone-dim); font-size: 13px; }
+
+  footer { color: var(--bone-dim); font-size: 13px; border-top: 1px solid var(--line); padding-top: 18px; }
+  @media (prefers-reduced-motion: reduce) { .flip .inner { transition: none; } }
+
+
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; }
+  .lock { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; box-sizing: border-box; }
+  .lock form { width: min(100%, 360px); display: grid; gap: 14px; text-align: center; }
+  .lock h1 { font-size: 44px; }
+  .lock p { color: var(--bone-dim); margin: 0; }
+  .lock input { font: 600 17px/1.2 var(--body); padding: 14px 12px; border-radius: 6px; border: 1px solid var(--line);
+    background: #0f0e0f; color: var(--bone); text-align: center; letter-spacing: .08em; }
+  .lock input:focus-visible { outline: 2px solid var(--blood); outline-offset: 2px; }
+  .lock label { display: flex; gap: 8px; justify-content: center; align-items: center; color: var(--bone-dim); font-size: 14px; }
+  .lock .err { color: #ff6b6b; min-height: 1.4em; }
+  .install { color: var(--bone-dim); font-size: 13px; border-top: 1px solid var(--line); padding-top: 12px; }
+
+</style>
+</head>
+<body>
+
+<div class="lock" id="lock">
+  <form id="lockForm" autocomplete="off">
+    <div class="eyebrow">Acceso privado · Private access</div>
+    <h1>Crónicas <span>Negras</span></h1>
+    <p>Escribe la contraseña para abrir las cartas.<br>Enter the password to unlock the cards.</p>
+    <input id="pw" type="password" inputmode="text" autocapitalize="none" spellcheck="false" placeholder="xxxx-xxxx-xxxx" aria-label="Contraseña">
+    <label><input id="remember" type="checkbox" checked> Recordar en este dispositivo</label>
+    <button class="btn primary" type="submit" id="unlock">Entrar</button>
+    <div class="err" id="err" role="alert"></div>
+    <div class="install">Para instalarla: en Android, menú ⋮ → «Instalar aplicación». En iPhone, botón Compartir → «Añadir a pantalla de inicio».</div>
+  </form>
+</div>
+
+<div id="app" hidden>
+
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="eyebrow">Casos para resolver con sí o no</div>
+    <h1>Crónicas <span>Negras</span></h1>
+    <div class="howto">
+      <p><b>El narrador</b> lee en voz alta la cara negra y se guarda la solución. Solo él puede mirar el reverso.</p>
+      <p><b>Los detectives</b> hacen preguntas que se respondan con <b>sí</b> o <b>no</b>. Nada más.</p>
+      <p><b>Gana</b> quien reconstruya la historia completa. Las calaveras marcan lo retorcido que es el caso.</p>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="seg" id="decks" role="group" aria-label="Mazo"></div>
+    <div class="seg" id="levels" role="group" aria-label="Dificultad"></div>
+    <span class="spacer"></span>
+    <button class="btn" id="toggleAll" type="button">Revelar todas</button>
+    <button class="btn primary" id="play" type="button">Jugar un caso</button>
+  </div>
+
+  <main class="deck" id="deck"></main>
+  <footer>Toca una carta para darle la vuelta. «Jugar un caso» saca una carta al azar del mazo y la dificultad elegidos, sin repetir.</footer>
+</div>
+
+<div class="game" id="game" hidden>
+  <div class="stage">
+    <div class="hint" id="gameInfo"></div>
+    <div class="slot" id="gameSlot"></div>
+    <div class="row">
+      <button class="btn" id="gameFlip" type="button">Ver solución</button>
+      <button class="btn primary" id="gameNext" type="button">Otro caso</button>
+      <button class="btn" id="gameClose" type="button">Salir</button>
+    </div>
+  </div>
+</div>
+
+
+</div>
+<script src="arte.js"></script>
+<script>
+function iniciar() {
+
+
+const ALL = CN.allCards();
+
+const store = {
+  get(k, d) { try { return localStorage.getItem(k) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+const hash = location.hash.replace("#", "");
+const deckOpts = Object.entries(CN.DECKS).map(([k, d]) => [k, d.name]).filter(([k]) => ALL.some(c => c.deck === k));
+const valid = k => deckOpts.some(([v]) => v === k);
+let deckSel = valid(hash) ? hash : valid(store.get("cn-deck", "")) ? store.get("cn-deck", "") : "humor";
+document.getElementById("eyebrow").textContent = `${ALL.length} casos · ${deckOpts.length} mazos`;
+let lvlSel = 0;
+
+const lvlOpts = () => [[0, "Todas"], ...CN.LEVELS.map((n, i) => [i + 1, CN.DECKS[deckSel].kids && i === 3 ? "Muy difícil" : n])];
+
+const pool = () => ALL.filter(c => c.deck === deckSel && (!lvlSel || c.l === lvlSel));
+const countFor = (d, l) => ALL.filter(c => c.deck === d && (!l || c.l === l)).length;
+
+function renderControls() {
+  document.getElementById("decks").innerHTML = deckOpts.map(([v, t]) =>
+    `<button class="chip" type="button" data-deck="${v}" aria-pressed="${v === deckSel}">${t}<span class="n">${countFor(v, 0)}</span></button>`).join("");
+  document.getElementById("levels").innerHTML = lvlOpts().map(([v, t]) =>
+    `<button class="chip" type="button" data-lvl="${v}" aria-pressed="${v === lvlSel}">${t}<span class="n">${countFor(deckSel, v)}</span></button>`).join("");
+}
+
+const cardHTML = (c, tag = "button") =>
+  `<${tag} class="flip cn-card" ${tag === "button" ? 'type="button"' : ""} aria-pressed="false" aria-label="${CN.DECKS[c.deck].name} ${CN.pad(c.n)}: ${c.t}. Pulsa para ver la solución">
+    <div class="inner">${CN.front(c)}${CN.back(c)}</div></${tag}>`;
+
+function renderDeck() {
+  const list = pool();
+  const el = document.getElementById("deck");
+  el.innerHTML = list.length ? list.map(c => cardHTML(c)).join("") : `<p class="empty">No hay casos con ese filtro.</p>`;
+  allRevealed = false;
+  document.getElementById("toggleAll").textContent = "Revelar todas";
+  refit(el);
+}
+
+function refit(el) { (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => CN.fit(el)); }
+const setFlip = (el, on) => { el.classList.toggle("flipped", on); el.setAttribute("aria-pressed", on); };
+
+document.addEventListener("click", e => {
+  const d = e.target.closest("[data-deck]"), l = e.target.closest("[data-lvl]"), f = e.target.closest("#deck .flip");
+  if (d) { deckSel = d.dataset.deck; store.set("cn-deck", deckSel); lvlSel = 0; renderControls(); renderDeck(); used.clear(); }
+  else if (l) { lvlSel = +l.dataset.lvl; renderControls(); renderDeck(); used.clear(); }
+  else if (f) setFlip(f, !f.classList.contains("flipped"));
+});
+
+let allRevealed = false;
+document.getElementById("toggleAll").onclick = () => {
+  allRevealed = !allRevealed;
+  document.querySelectorAll("#deck .flip").forEach(el => setFlip(el, allRevealed));
+  document.getElementById("toggleAll").textContent = allRevealed ? "Ocultar todas" : "Revelar todas";
+};
+
+// Modo partida
+const game = document.getElementById("game"), slot = document.getElementById("gameSlot");
+const used = new Set();
+function deal() {
+  let list = pool();
+  if (!list.length) return;
+  let fresh = list.filter(c => !used.has(c.deck + c.n));
+  if (!fresh.length) { used.clear(); fresh = list; }
+  const c = fresh[Math.floor(Math.random() * fresh.length)];
+  used.add(c.deck + c.n);
+  slot.innerHTML = cardHTML(c, "div");
+  document.getElementById("gameFlip").textContent = "Ver solución";
+  document.getElementById("gameInfo").textContent = `${CN.DECKS[c.deck].name} · ${used.size} de ${list.length} jugados`;
+  refit(slot);
+}
+function flipGame() {
+  const f = slot.querySelector(".flip");
+  if (!f) return;
+  setFlip(f, !f.classList.contains("flipped"));
+  document.getElementById("gameFlip").textContent = f.classList.contains("flipped") ? "Ver enigma" : "Ver solución";
+}
+document.getElementById("play").onclick = () => { game.hidden = false; deal(); document.getElementById("gameNext").focus(); };
+document.getElementById("gameNext").onclick = deal;
+document.getElementById("gameFlip").onclick = flipGame;
+slot.onclick = flipGame;
+document.getElementById("gameClose").onclick = () => { game.hidden = true; };
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !game.hidden) game.hidden = true; });
+
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => CN.fit(document), 200); });
+
+renderControls();
+renderDeck();
+
+
+}
+</script>
+
+<script>
+// Descifra las cartas (AES-GCM + PBKDF2) y arranca la app
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function descifrar(pw) {
+  const pkg = await (await fetch("datos.enc")).json();
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(pkg.salt), iterations: pkg.iter, hash: "SHA-256" },
+    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(pkg.iv) }, key, b64(pkg.data));
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+function arrancar(d) {
+  Object.entries(d.mazos).forEach(([k, v]) => { window[k] = v; });
+  window.EN = d.EN;
+  document.getElementById("lock").hidden = true;
+  document.getElementById("app").hidden = false;
+  iniciar();
+}
+async function probar(pw, guardar) {
+  const d = await descifrar(pw.trim());
+  if (guardar) { try { localStorage.setItem("cn-pw", pw.trim()); } catch {} }
+  arrancar(d);
+}
+document.getElementById("lockForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = document.getElementById("err"), btn = document.getElementById("unlock");
+  err.textContent = ""; btn.disabled = true; btn.textContent = "Abriendo…";
+  try { await probar(document.getElementById("pw").value, document.getElementById("remember").checked); }
+  catch { err.textContent = "Contraseña incorrecta · Wrong password"; }
+  btn.disabled = false; btn.textContent = "Entrar";
+});
+(async () => {
+  let saved = null; try { saved = localStorage.getItem("cn-pw"); } catch {}
+  if (saved) { try { await probar(saved, false); return; } catch {} }
+  document.getElementById("lock").hidden = false;
+})();
+if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
+</script>
+
+</body>
+</html>

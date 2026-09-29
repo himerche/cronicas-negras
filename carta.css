@@ -1,0 +1,148 @@
+/* Crónicas Negras · diseño de carta (compartido por app e impresión).
+   Todo se mide en cqw respecto al ancho de la carta, así la carta es idéntica a cualquier tamaño. */
+.cn-card {
+  --bone: #ebe7dc;
+  --bone-dim: #8d8980;
+  --card: #0a0a0b;
+  --paper: #efece4;
+  --ink: #141213;
+  --blood: #c1121f;
+  --blood-deep: #8a0c16;
+  --frame: #3a3637;
+  --display: "Special Elite", "Courier New", Courier, monospace;
+  --body: "Karla", "Segoe UI", system-ui, sans-serif;
+  container-type: inline-size;
+  aspect-ratio: 63 / 88;
+  width: 100%;
+  max-width: 100%;
+}
+.cn-card .deck-macabro { --card: #0d0708; --frame: #5a1a1e; --paper: #e7e2d7; }
+
+.cn-card .face {
+  position: relative; width: 100%; height: 100%;
+  border-radius: 4.5cqw; padding: 3.2cqw; box-sizing: border-box;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.cn-card .frame {
+  --k: 1;
+  height: 100%; box-sizing: border-box; overflow: hidden;
+  border-radius: 2.4cqw; padding: 4.2cqw 4.6cqw 3.6cqw;
+  display: flex; flex-direction: column; gap: 2.6cqw;
+}
+.cn-card .front { background: var(--card); color: var(--bone); }
+.cn-card .front .frame { border: 0.35cqw solid var(--frame); }
+.cn-card .back { background: var(--paper); color: var(--ink); }
+.cn-card .back .frame { border: 0.35cqw solid #c9c2b2; }
+
+.cn-card .meta { display: flex; justify-content: space-between; align-items: center; }
+.cn-card .num { font-family: var(--display); font-size: 3.4cqw; color: var(--bone-dim); letter-spacing: .08em; }
+.cn-card .skulls { display: flex; align-items: center; gap: 1.4cqw; }
+.cn-card .level { font-family: var(--body); font-size: 2.7cqw; letter-spacing: .14em; text-transform: uppercase; color: var(--bone-dim); }
+.cn-card .sk { display: flex; gap: .8cqw; }
+.cn-card .sk i { display: block; width: 3.6cqw; height: 4.1cqw; }
+.cn-card .sk svg { display: block; width: 100%; height: 100%; }
+.cn-card .sk .on svg { fill: var(--blood); }
+.cn-card .sk .off svg { fill: #2e2b2c; }
+.cn-card .deck-macabro .sk .off svg { fill: #33201f; }
+
+.cn-card .art { display: block; width: 100%; aspect-ratio: 200 / 124; flex: none; }
+.cn-card svg.art text { font-family: var(--display); }
+.cn-card .icon-art { position: relative; display: grid; place-items: center; }
+.cn-card .icon-art::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 0;
+  border-top: 0.3cqw solid var(--bone); opacity: .14;
+}
+.cn-card .ring {
+  position: absolute; width: 46cqw; height: 46cqw; border-radius: 50%;
+  border: 0.45cqw dashed var(--bone); opacity: .32;
+}
+.cn-card .deck-macabro .ring { border-color: var(--blood); opacity: .45; }
+.cn-card .ms {
+  font-family: "Material Symbols Outlined"; font-weight: normal; font-style: normal;
+  line-height: 1; letter-spacing: normal; text-transform: none; white-space: nowrap;
+  direction: ltr; -webkit-font-smoothing: antialiased; font-feature-settings: "liga";
+  font-variation-settings: "FILL" 1, "wght" 400, "opsz" 48;
+}
+.cn-card .ms.main { position: relative; font-size: 33cqw; color: var(--bone); }
+.cn-card .tag {
+  position: absolute; right: 13cqw; bottom: 1.5cqw;
+  width: 15cqw; height: 15cqw; border-radius: 50%;
+  background: var(--card); border: 0.6cqw solid var(--blood);
+  display: grid; place-items: center;
+}
+.cn-card .tag .ms { font-size: 8.6cqw; color: var(--blood); }
+
+.cn-card .title {
+  font-family: var(--display); font-weight: 400; margin: 0;
+  font-size: calc(7.2cqw * var(--k)); line-height: 1.08; text-wrap: balance;
+}
+.cn-card .riddle { margin: 0; font-family: var(--body); font-size: calc(5.3cqw * var(--k)); line-height: 1.4; }
+.cn-card .foot {
+  margin-top: auto; display: flex; justify-content: space-between; gap: 2cqw;
+  font-family: var(--body); font-size: 2.5cqw; letter-spacing: .16em; text-transform: uppercase; color: var(--bone-dim);
+  border-top: 0.3cqw solid var(--frame); padding-top: 2cqw;
+}
+.cn-card .foot .deckname { color: var(--blood); }
+
+.cn-card .back .label {
+  font-family: var(--body); font-size: 2.7cqw; letter-spacing: .16em; text-transform: uppercase;
+  font-weight: 700; color: var(--blood-deep);
+}
+.cn-card .back .title { font-size: calc(6cqw * var(--k)); }
+.cn-card .solution { margin: 0; font-family: var(--body); font-size: calc(4.75cqw * var(--k)); line-height: 1.4; }
+.cn-card .keys {
+  margin-top: auto; border-top: 0.3cqw dashed #b3ab9a; padding-top: 2.2cqw;
+  display: flex; flex-direction: column; gap: 1.2cqw;
+}
+.cn-card .keys ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 1cqw; }
+.cn-card .keys li { display: flex; gap: 2cqw; align-items: baseline; font-family: var(--body); font-size: calc(3.8cqw * var(--k)); line-height: 1.3; }
+.cn-card .yn {
+  flex: none; font-weight: 700; font-size: 2.6cqw; min-width: 6cqw; text-align: center;
+  border-radius: .6cqw; padding: .3cqw 1cqw; transform: translateY(-.3cqw);
+}
+.cn-card .yn.si { background: var(--ink); color: var(--paper); }
+.cn-card .yn.no { background: var(--blood-deep); color: #fff; }
+
+/* Paleta de cada mazo: fondo de la cara negra, marco, acento y acento oscuro del reverso */
+.cn-card .deck-pueblo     { --card: #0e0a08; --frame: #4d3322; --blood: #d0602c; --blood-deep: #93401a; --paper: #efe8dc; }
+.cn-card .deck-historia   { --card: #0d0b07; --frame: #4a3f24; --blood: #c9a24a; --blood-deep: #7d6020; --paper: #ede6d3; }
+.cn-card .deck-escuela    { --card: #090d0b; --frame: #2c4034; --blood: #5fae7a; --blood-deep: #2f6b45; --paper: #e9ece4; }
+.cn-card .deck-encantadas { --card: #0b0a0f; --frame: #3a3150; --blood: #9a7fd1; --blood-deep: #5b4596; --paper: #e9e6ee; }
+.cn-card .deck-imposibles { --card: #080b0f; --frame: #24364a; --blood: #4f8fd6; --blood-deep: #285a94; --paper: #e5e9ee; }
+.cn-card .deck-ninos      { --card: #101a3d; --frame: #34467a; --blood: #ffc73a; --blood-deep: #2a3f8f; --paper: #f3efe3; --bone-dim: #9aa6c9; }
+.cn-card .deck-ninos .sk .off svg { fill: #26335f; }
+.cn-card .deck-pueblo .sk .off svg, .cn-card .deck-historia .sk .off svg { fill: #2f2820; }
+
+/* Versión bilingüe (español arriba, inglés debajo) */
+.cn-card .frame.bi { gap: 1.5cqw; padding-top: 3.6cqw; }
+.cn-card .frame.bi .art { aspect-ratio: 200 / 74; }
+.cn-card .frame.bi .ms.main { font-size: 21cqw; }
+.cn-card .frame.bi .ring { width: 29cqw; height: 29cqw; }
+.cn-card .frame.bi .tag { width: 10.5cqw; height: 10.5cqw; right: 21cqw; bottom: 0; border-width: .45cqw; }
+.cn-card .frame.bi .tag .ms { font-size: 6cqw; }
+.cn-card .frame.bi .title { font-size: calc(6cqw * var(--k)); }
+.cn-card .title-en {
+  margin-top: -1.2cqw; font-family: var(--display); font-size: calc(3.8cqw * var(--k)); line-height: 1.1;
+  color: var(--bone-dim); text-wrap: balance;
+}
+.cn-card .back .title-en { color: #6d675c; }
+.cn-card .frame.bi .riddle { font-size: calc(4.15cqw * var(--k)); line-height: 1.34; }
+.cn-card .frame.bi .riddle.en { color: #bdb8ac; }
+.cn-card .deck-ninos .frame.bi .riddle.en { color: #c3cbe3; }
+.cn-card .frame.bi .back .title, .cn-card .back .frame.bi .title { font-size: calc(5cqw * var(--k)); }
+.cn-card .frame.bi .solution { font-size: calc(3.65cqw * var(--k)); line-height: 1.32; }
+.cn-card .frame.bi .solution.en { color: #4b463f; }
+.cn-card .lang {
+  display: inline-block; font-family: var(--body); font-weight: 700; font-size: 2.1cqw; letter-spacing: .08em;
+  color: var(--card); background: var(--blood); border-radius: .5cqw; padding: .1cqw .8cqw; margin-right: 1.2cqw;
+  transform: translateY(-.35cqw);
+}
+.cn-card .back .lang { color: #fff; background: var(--blood-deep); }
+.cn-card .frame.bi .keys { padding-top: 1.6cqw; gap: .8cqw; }
+.cn-card .frame.bi .keys ul { gap: .9cqw; }
+.cn-card .frame.bi .keys li { font-size: calc(3.1cqw * var(--k)); line-height: 1.22; gap: 1.6cqw; }
+.cn-card .frame.bi .yn { font-size: 2.2cqw; min-width: 5.5cqw; }
+.cn-card .k-en { display: block; color: #6d675c; }
+.cn-card .frame.bi .foot { padding-top: 1.4cqw; font-size: 2.2cqw; }
+.cn-card .deck-fiestas     { --card: #110a12; --frame: #4a2340; --blood: #e24a86; --blood-deep: #9c1f55; --paper: #efe7ea; }
+.cn-card .deck-fiestas .sk .off svg { fill: #2f1a2b; }
