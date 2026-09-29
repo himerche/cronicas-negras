@@ -146,3 +146,9 @@
 .cn-card .frame.bi .foot { padding-top: 1.4cqw; font-size: 2.2cqw; }
 .cn-card .deck-fiestas     { --card: #110a12; --frame: #4a2340; --blood: #e24a86; --blood-deep: #9c1f55; --paper: #efe7ea; }
 .cn-card .deck-fiestas .sk .off svg { fill: #2f1a2b; }
+.cn-card .deck-stardew     { --card: #0c0d07; --frame: #3a4424; --blood: #8fd14f; --blood-deep: #4c7a22; --paper: #eef0e2; }
+.cn-card .deck-zelda       { --card: #07100f; --frame: #1f4044; --blood: #36c5d6; --blood-deep: #1c7682; --paper: #e6eeed; }
+.cn-card .deck-gta         { --card: #0b0a07; --frame: #4a3f1c; --blood: #f4c430; --blood-deep: #8a6a0a; --paper: #f1ede0; }
+.cn-card .deck-stardew .sk .off svg { fill: #252b16; }
+.cn-card .deck-zelda .sk .off svg { fill: #16292b; }
+.cn-card .deck-gta .sk .off svg { fill: #2c2610; }

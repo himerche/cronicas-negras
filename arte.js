@@ -99,6 +99,9 @@
     encantadas: { name: "Casas encantadas", short: "CE", src: ["MAZO_ENCANTADAS"] },
     imposibles: { name: "Crímenes imposibles", short: "CI", src: ["MAZO_IMPOSIBLES"] },
     fiestas: { name: "Festividades", short: "FE", src: ["MAZO_FIESTAS_1", "MAZO_FIESTAS_2"] },
+    stardew: { name: "Stardew Valley (fan)", short: "SV", src: ["MAZO_STARDEW_1", "MAZO_STARDEW_2"] },
+    zelda: { name: "Zelda (fan)", short: "ZE", src: ["MAZO_ZELDA_1", "MAZO_ZELDA_2"] },
+    gta: { name: "GTA (fan)", short: "GT", src: ["MAZO_GTA_1", "MAZO_GTA_2"] },
     ninos: { name: "Niños · sin muertes", short: "NI", src: ["MAZO_NINOS_1", "MAZO_NINOS_2"], kids: true },
   };
 
