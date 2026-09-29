@@ -333,7 +333,12 @@ document.getElementById("lockForm").addEventListener("submit", async e => {
   if (saved) { try { await probar(saved, false); return; } catch {} }
   document.getElementById("lock").hidden = false;
 })();
-if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
+if ("serviceWorker" in navigator) {
+  addEventListener("load", () => navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then(r => r.update()));
+  // Si llega una versión nueva mientras la app está abierta, se recarga una vez para mostrarla
+  let recargada = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => { if (!recargada) { recargada = true; location.reload(); } });
+}
 </script>
 
 </body>
